@@ -84,53 +84,66 @@
             margin-top: 20px;
             text-align: center;
         }
+
+        .cta a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <h1>Kalkulator Systemu Nawadniania</h1>
-    <label for="area">Powierzchnia ogrodu (m²):</label>
-    <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię">
+    <h2>Kalkulator Systemu Nawadniania</h2>
+    <form onsubmit="calculateCost(event)">
+        <label for="area">Powierzchnia ogrodu (m²):</label>
+        <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię" required>
 
-    <label for="pressure">Ciśnienie wody:</label>
-    <select id="pressure">
-        <option value="30">2 atm </option>
-        <option value="20">2,5 atm </option>
-        <option value="10">3 atm </option>
-        <option value="0">3,5 atm </option>
-        <option value="-10">4 atm </option>
-    </select>
+        <label for="pressure">Ciśnienie wody:</label>
+        <select id="pressure">
+            <option value="30">2 atm (+30%)</option>
+            <option value="20">2,5 atm (+20%)</option>
+            <option value="10">3 atm (+10%)</option>
+            <option value="0">3,5 atm (+0%)</option>
+            <option value="-10">4 atm (-10%)</option>
+        </select>
 
-    <label for="pipe">Wydatek wody:</label>
-    <select id="pipe">
-        <option value="30">Rura 20 - 1,4 m³/h </option>
-        <option value="10">Rura 25 - 2,5 m³/h </option>
-        <option value="0">Rura 32 - 4,5 m³/h </option>
-    </select>
+        <label for="pipe">Wydatek wody:</label>
+        <select id="pipe">
+            <option value="30">Rura 20 - 1,4 m³/h (+30%)</option>
+            <option value="10">Rura 25 - 2,5 m³/h (+10%)</option>
+            <option value="0">Rura 32 - 4,5 m³/h (+0%)</option>
+        </select>
 
-    <label for="controller">Komputer sterujący:</label>
-    <select id="controller">
-        <option value="0">Wewnętrzny </option>
-        <option value="200">Zewnętrzny (+200 zł)</option>
-    </select>
+        <label for="controller">Komputer sterujący:</label>
+        <select id="controller">
+            <option value="0">Wewnętrzny (+0 zł)</option>
+            <option value="200">Zewnętrzny (+200 zł)</option>
+        </select>
 
-    <label for="wifi">Sterowanie:</label>
-    <select id="wifi">
-        <option value="0">Bez WiFi </option>
-        <option value="600">Z WiFi (+500 zł)</option>
-    </select>
+        <label for="wifi">Sterowanie:</label>
+        <select id="wifi">
+            <option value="0">Bez WiFi (+0 zł)</option>
+            <option value="600">Z WiFi (+600 zł)</option>
+        </select>
 
-    <label for="sensor">Czujnik deszczu:</label>
-    <select id="sensor">
-        <option value="160">Standardowy </option>
-        <option value="350">SolarSync (+350 zł)</option>
-    </select>
+        <label for="sensor">Czujnik deszczu:</label>
+        <select id="sensor">
+            <option value="160">Standardowy (+160 zł)</option>
+            <option value="500">SolarSync (+500 zł)</option>
+        </select>
 
-    <button onclick="calculateCost()">Oblicz koszty</button>
+        <button type="submit">Oblicz koszty</button>
+    </form>
 
-    <div id="result" class="result" style="display: none;"></div>
+    <div id="result" class="results hidden"></div>
+    <div class="cta hidden" id="cta">
+        <p><a href="https://wytwornia-zieleni.pl/formularz-wyceny/polski" target="_blank">👉 Sprawdź cenę projektu ogrodu w Wytwórni Zieleni 👌</a></p>
+    </div>
 
     <script>
-        function calculateCost() {
+        function calculateCost(event) {
+            event.preventDefault();
+
             const area = parseFloat(document.getElementById('area').value);
             const pressureModifier = parseFloat(document.getElementById('pressure').value);
             const pipeModifier = parseFloat(document.getElementById('pipe').value);
@@ -138,12 +151,6 @@
             const wifiCost = parseFloat(document.getElementById('wifi').value);
             const sensorCost = parseFloat(document.getElementById('sensor').value);
 
-            if (isNaN(area) || area <= 0) {
-                alert("Proszę wprowadzić poprawną powierzchnię ogrodu.");
-                return;
-            }
-
-            // Koszt elementów nawadniania podstawowy
             let costPerSquareMeter;
             if (area <= 100) costPerSquareMeter = 80;
             else if (area <= 200) costPerSquareMeter = 70;
@@ -161,7 +168,6 @@
 
             const irrigationCost = area * costPerSquareMeter;
 
-            // Koszt sterownika
             let controllerBaseCost;
             if (area <= 200) controllerBaseCost = 350;
             else if (area <= 500) controllerBaseCost = 390;
@@ -172,7 +178,6 @@
 
             const controllerTotalCost = controllerBaseCost + wifiCost + controllerCost;
 
-            // Koszt skrzynek elektrozaworowych
             let valveBoxCost;
             if (area <= 100) valveBoxCost = 1000;
             else if (area <= 200) valveBoxCost = 1200;
@@ -187,12 +192,10 @@
             else if (area <= 6000) valveBoxCost = 7000;
             else valveBoxCost = 7500;
 
-            // Koszt robocizny
             const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost;
             const laborCostMin = baseMaterialCost * 0.3;
             const laborCostMax = baseMaterialCost * 0.4;
 
-            // Modyfikatory
             const totalModifier = 1 + (pressureModifier + pipeModifier) / 100;
             const totalCost = baseMaterialCost * totalModifier;
             const laborCostMinFinal = laborCostMin * totalModifier;
@@ -201,17 +204,19 @@
             const overallCostMin = totalCost + laborCostMinFinal;
             const overallCostMax = totalCost + laborCostMaxFinal;
 
-            // Wyświetlenie wyniku
             const resultDiv = document.getElementById('result');
-            resultDiv.style.display = "block";
+            resultDiv.classList.remove('hidden');
             resultDiv.innerHTML = `
-                <strong>Podsumowanie:</strong><br>
-                Koszt elementów nawadniania podstawowy: ${irrigationCost.toFixed(2)} zł<br>
-                Koszt sterownika: ${controllerTotalCost.toFixed(2)} zł<br>
-                Koszt skrzynek elektrozaworowych: ${valveBoxCost.toFixed(2)} zł<br>
-                Koszt robocizny: od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł<br>
-                <strong>Łączny koszt: od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</strong>
+                <h4>Podsumowanie:</h4>
+                <p><strong>Koszt elementów nawadniania podstawowy:</strong> ${irrigationCost.toFixed(2)} zł</p>
+                <p><strong>Koszt sterownika:</strong> ${controllerTotalCost.toFixed(2)} zł</p>
+                <p><strong>Koszt skrzynek elektrozaworowych:</strong> ${valveBoxCost.toFixed(2)} zł</p>
+                <p><strong>Koszt robocizny:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
+                <p><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</p>
             `;
+
+            const ctaDiv = document.getElementById('cta');
+            ctaDiv.classList.remove('hidden');
         }
     </script>
 </body>
