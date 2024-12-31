@@ -235,7 +235,7 @@
     // Wyślij wysokość przy każdej zmianie zawartości
     window.addEventListener('resize', sendHeightToParent);
 
-    // Wyślij wysokość po kliknięciu "Oblicz", aby zaktualizować po rozwinięciu wyniku
+    // Wyślij wysokość po kliknięciu "Oblicz koszty", aby zaktualizować po rozwinięciu wyniku
     document.querySelector('form').addEventListener('submit', function() {
         setTimeout(sendHeightToParent, 300); // Krótkie opóźnienie, by wynik zdążył się wyrenderować
     });
