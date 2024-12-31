@@ -25,7 +25,7 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin: 0 auto;
-            max-width: 1260px;
+            max-width: 1280px;
         }
 
         label {
@@ -100,36 +100,37 @@
 
         <label for="pressure">Ciśnienie wody:</label>
         <select id="pressure">
-            <option value="30">2 atm (+30%)</option>
-            <option value="20">2,5 atm (+20%)</option>
-            <option value="10">3 atm (+10%)</option>
-            <option value="0">3,5 atm (+0%)</option>
-            <option value="-10">4 atm (-10%)</option>
+            <option value="30">2 atm </option>
+            <option value="20">2,5 atm</option>
+            <option value="10">3 atm</option>
+            <option value="0">3,5 atm</option>
+            <option value="-10">4 atm</option>
         </select>
 
         <label for="pipe">Wydatek wody:</label>
         <select id="pipe">
-            <option value="30">Rura 20 - 1,4 m³/h (+30%)</option>
-            <option value="10">Rura 25 - 2,5 m³/h (+10%)</option>
-            <option value="0">Rura 32 - 4,5 m³/h (+0%)</option>
+            <option value="60">ok 1 m³/h - rura 16  </option>
+            <option value="30">ok 1,4 m³/h - rura 20  </option>
+            <option value="10">ok 2,5 m³/h - Rura 25</option>
+            <option value="0">ok 4,5 m³/h Rura 32 </option>
         </select>
 
         <label for="controller">Komputer sterujący:</label>
         <select id="controller">
-            <option value="0">Wewnętrzny (+0 zł)</option>
+            <option value="0">Wewnętrzny</option>
             <option value="200">Zewnętrzny (+200 zł)</option>
         </select>
 
         <label for="wifi">Sterowanie:</label>
         <select id="wifi">
-            <option value="0">Bez WiFi (+0 zł)</option>
+            <option value="0">Bez WiFi </option>
             <option value="600">Z WiFi (+600 zł)</option>
         </select>
 
         <label for="sensor">Czujnik deszczu:</label>
         <select id="sensor">
-            <option value="160">Standardowy (+160 zł)</option>
-            <option value="500">SolarSync (+500 zł)</option>
+            <option value="160">Standardowy</option>
+            <option value="500">SolarSync (+350 zł)</option>
         </select>
 
         <button type="submit">Oblicz koszty</button>
@@ -152,19 +153,19 @@
             const sensorCost = parseFloat(document.getElementById('sensor').value);
 
             let costPerSquareMeter;
-            if (area <= 100) costPerSquareMeter = 80;
-            else if (area <= 200) costPerSquareMeter = 70;
-            else if (area <= 300) costPerSquareMeter = 60;
-            else if (area <= 500) costPerSquareMeter = 50;
-            else if (area <= 1000) costPerSquareMeter = 30;
-            else if (area <= 1500) costPerSquareMeter = 25;
-            else if (area <= 2000) costPerSquareMeter = 20;
+            if (area <= 100) costPerSquareMeter = 50;
+            else if (area <= 200) costPerSquareMeter = 40;
+            else if (area <= 300) costPerSquareMeter = 30;
+            else if (area <= 500) costPerSquareMeter = 20;
+            else if (area <= 1000) costPerSquareMeter = 18;
+            else if (area <= 1500) costPerSquareMeter = 17;
+            else if (area <= 2000) costPerSquareMeter = 16;
             else if (area <= 3000) costPerSquareMeter = 15;
-            else if (area <= 4000) costPerSquareMeter = 12;
-            else if (area <= 5000) costPerSquareMeter = 10;
-            else if (area <= 6000) costPerSquareMeter = 8;
-            else if (area <= 8000) costPerSquareMeter = 7;
-            else costPerSquareMeter = 6;
+            else if (area <= 4000) costPerSquareMeter = 14;
+            else if (area <= 5000) costPerSquareMeter = 13;
+            else if (area <= 6000) costPerSquareMeter = 12;
+            else if (area <= 8000) costPerSquareMeter = 10;
+            else costPerSquareMeter = 8;
 
             const irrigationCost = area * costPerSquareMeter;
 
@@ -207,12 +208,12 @@
             const resultDiv = document.getElementById('result');
             resultDiv.classList.remove('hidden');
             resultDiv.innerHTML = `
-                <h4>Podsumowanie:</h4>
+                <h3>Podsumowanie:</h3>
                 <p><strong>Koszt elementów nawadniania podstawowy:</strong> ${irrigationCost.toFixed(2)} zł</p>
                 <p><strong>Koszt sterownika:</strong> ${controllerTotalCost.toFixed(2)} zł</p>
                 <p><strong>Koszt skrzynek elektrozaworowych:</strong> ${valveBoxCost.toFixed(2)} zł</p>
                 <p><strong>Koszt robocizny:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
-                <p><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</p>
+                <h3><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h3>
             `;
 
             const ctaDiv = document.getElementById('cta');
