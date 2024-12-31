@@ -153,19 +153,19 @@
         const sensorCost = parseFloat(document.getElementById('sensor').value);
 
         let costPerSquareMeter;
-        if (area <= 100) costPerSquareMeter = 80;
-        else if (area <= 200) costPerSquareMeter = 70;
-        else if (area <= 300) costPerSquareMeter = 60;
-        else if (area <= 500) costPerSquareMeter = 50;
-        else if (area <= 1000) costPerSquareMeter = 30;
-        else if (area <= 1500) costPerSquareMeter = 25;
-        else if (area <= 2000) costPerSquareMeter = 20;
+        if (area <= 100) costPerSquareMeter = 50;
+        else if (area <= 200) costPerSquareMeter = 40;
+        else if (area <= 300) costPerSquareMeter = 35;
+        else if (area <= 500) costPerSquareMeter = 30;
+        else if (area <= 1000) costPerSquareMeter = 20;
+        else if (area <= 1500) costPerSquareMeter = 18;
+        else if (area <= 2000) costPerSquareMeter = 16;
         else if (area <= 3000) costPerSquareMeter = 15;
-        else if (area <= 4000) costPerSquareMeter = 12;
-        else if (area <= 5000) costPerSquareMeter = 10;
-        else if (area <= 6000) costPerSquareMeter = 8;
-        else if (area <= 8000) costPerSquareMeter = 7;
-        else costPerSquareMeter = 6;
+        else if (area <= 4000) costPerSquareMeter = 14;
+        else if (area <= 5000) costPerSquareMeter = 12;
+        else if (area <= 6000) costPerSquareMeter = 10;
+        else if (area <= 8000) costPerSquareMeter = 8;
+        else costPerSquareMeter = 7;
 
         const irrigationCost = area * costPerSquareMeter;
 
