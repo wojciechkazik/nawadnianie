@@ -142,83 +142,104 @@
     </div>
 
     <script>
-        function calculateCost(event) {
-            event.preventDefault();
+    function calculateCost(event) {
+        event.preventDefault();
 
-            const area = parseFloat(document.getElementById('area').value);
-            const pressureModifier = parseFloat(document.getElementById('pressure').value);
-            const pipeModifier = parseFloat(document.getElementById('pipe').value);
-            const controllerCost = parseFloat(document.getElementById('controller').value);
-            const wifiCost = parseFloat(document.getElementById('wifi').value);
-            const sensorCost = parseFloat(document.getElementById('sensor').value);
+        const area = parseFloat(document.getElementById('area').value);
+        const pressureModifier = parseFloat(document.getElementById('pressure').value);
+        const pipeModifier = parseFloat(document.getElementById('pipe').value);
+        const controllerCost = parseFloat(document.getElementById('controller').value);
+        const wifiCost = parseFloat(document.getElementById('wifi').value);
+        const sensorCost = parseFloat(document.getElementById('sensor').value);
 
-            let costPerSquareMeter;
-            if (area <= 100) costPerSquareMeter = 50;
-            else if (area <= 200) costPerSquareMeter = 40;
-            else if (area <= 300) costPerSquareMeter = 30;
-            else if (area <= 500) costPerSquareMeter = 20;
-            else if (area <= 1000) costPerSquareMeter = 18;
-            else if (area <= 1500) costPerSquareMeter = 17;
-            else if (area <= 2000) costPerSquareMeter = 16;
-            else if (area <= 3000) costPerSquareMeter = 15;
-            else if (area <= 4000) costPerSquareMeter = 14;
-            else if (area <= 5000) costPerSquareMeter = 13;
-            else if (area <= 6000) costPerSquareMeter = 12;
-            else if (area <= 8000) costPerSquareMeter = 10;
-            else costPerSquareMeter = 8;
+        let costPerSquareMeter;
+        if (area <= 100) costPerSquareMeter = 80;
+        else if (area <= 200) costPerSquareMeter = 70;
+        else if (area <= 300) costPerSquareMeter = 60;
+        else if (area <= 500) costPerSquareMeter = 50;
+        else if (area <= 1000) costPerSquareMeter = 30;
+        else if (area <= 1500) costPerSquareMeter = 25;
+        else if (area <= 2000) costPerSquareMeter = 20;
+        else if (area <= 3000) costPerSquareMeter = 15;
+        else if (area <= 4000) costPerSquareMeter = 12;
+        else if (area <= 5000) costPerSquareMeter = 10;
+        else if (area <= 6000) costPerSquareMeter = 8;
+        else if (area <= 8000) costPerSquareMeter = 7;
+        else costPerSquareMeter = 6;
 
-            const irrigationCost = area * costPerSquareMeter;
+        const irrigationCost = area * costPerSquareMeter;
 
-            let controllerBaseCost;
-            if (area <= 200) controllerBaseCost = 350;
-            else if (area <= 500) controllerBaseCost = 390;
-            else if (area <= 1000) controllerBaseCost = 450;
-            else if (area <= 3000) controllerBaseCost = 1200;
-            else if (area <= 6000) controllerBaseCost = 3000;
-            else controllerBaseCost = 4000;
+        let controllerBaseCost;
+        if (area <= 200) controllerBaseCost = 350;
+        else if (area <= 500) controllerBaseCost = 390;
+        else if (area <= 1000) controllerBaseCost = 450;
+        else if (area <= 3000) controllerBaseCost = 1200;
+        else if (area <= 6000) controllerBaseCost = 3000;
+        else controllerBaseCost = 4000;
 
-            const controllerTotalCost = controllerBaseCost + wifiCost + controllerCost;
+        const controllerTotalCost = controllerBaseCost + wifiCost + controllerCost;
 
-            let valveBoxCost;
-            if (area <= 100) valveBoxCost = 1000;
-            else if (area <= 200) valveBoxCost = 1200;
-            else if (area <= 300) valveBoxCost = 1500;
-            else if (area <= 500) valveBoxCost = 1800;
-            else if (area <= 1000) valveBoxCost = 2200;
-            else if (area <= 1500) valveBoxCost = 2500;
-            else if (area <= 2000) valveBoxCost = 3000;
-            else if (area <= 3000) valveBoxCost = 4000;
-            else if (area <= 4000) valveBoxCost = 5000;
-            else if (area <= 5000) valveBoxCost = 6000;
-            else if (area <= 6000) valveBoxCost = 7000;
-            else valveBoxCost = 7500;
+        let valveBoxCost;
+        if (area <= 100) valveBoxCost = 1000;
+        else if (area <= 200) valveBoxCost = 1200;
+        else if (area <= 300) valveBoxCost = 1500;
+        else if (area <= 500) valveBoxCost = 1800;
+        else if (area <= 1000) valveBoxCost = 2200;
+        else if (area <= 1500) valveBoxCost = 2500;
+        else if (area <= 2000) valveBoxCost = 3000;
+        else if (area <= 3000) valveBoxCost = 4000;
+        else if (area <= 4000) valveBoxCost = 5000;
+        else if (area <= 5000) valveBoxCost = 6000;
+        else if (area <= 6000) valveBoxCost = 7000;
+        else valveBoxCost = 7500;
 
-            const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost;
-            const laborCostMin = baseMaterialCost * 0.3;
-            const laborCostMax = baseMaterialCost * 0.4;
+        const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost;
+        const laborCostMin = baseMaterialCost * 0.3;
+        const laborCostMax = baseMaterialCost * 0.4;
 
-            const totalModifier = 1 + (pressureModifier + pipeModifier) / 100;
-            const totalCost = baseMaterialCost * totalModifier;
-            const laborCostMinFinal = laborCostMin * totalModifier;
-            const laborCostMaxFinal = laborCostMax * totalModifier;
+        const totalModifier = 1 + (pressureModifier + pipeModifier) / 100;
+        const totalCost = baseMaterialCost * totalModifier;
+        const laborCostMinFinal = laborCostMin * totalModifier;
+        const laborCostMaxFinal = laborCostMax * totalModifier;
 
-            const overallCostMin = totalCost + laborCostMinFinal;
-            const overallCostMax = totalCost + laborCostMaxFinal;
+        const overallCostMin = totalCost + laborCostMinFinal;
+        const overallCostMax = totalCost + laborCostMaxFinal;
 
-            const resultDiv = document.getElementById('result');
-            resultDiv.classList.remove('hidden');
-            resultDiv.innerHTML = `
-                <h3>Podsumowanie:</h3>
-                <p><strong>Koszt elementów nawadniania podstawowy:</strong> ${irrigationCost.toFixed(2)} zł</p>
-                <p><strong>Koszt sterownika:</strong> ${controllerTotalCost.toFixed(2)} zł</p>
-                <p><strong>Koszt skrzynek elektrozaworowych:</strong> ${valveBoxCost.toFixed(2)} zł</p>
-                <p><strong>Koszt robocizny:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
-                <h3><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h3>
-            `;
+        const resultDiv = document.getElementById('result');
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = `
+            <h3>Podsumowanie:</h3>
+            <p><strong>Koszt elementów nawadniania podstawowy:</strong> ${irrigationCost.toFixed(2)} zł</p>
+            <p><strong>Koszt sterownika:</strong> ${controllerTotalCost.toFixed(2)} zł</p>
+            <p><strong>Koszt skrzynek elektrozaworowych:</strong> ${valveBoxCost.toFixed(2)} zł</p>
+            <p><strong>Koszt robocizny:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
+            <h3><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h3>
+        `;
 
-            const ctaDiv = document.getElementById('cta');
-            ctaDiv.classList.remove('hidden');
-        }
-    </script>
+        const ctaDiv = document.getElementById('cta');
+        ctaDiv.classList.remove('hidden');
+
+        // Wyślij wysokość po obliczeniach
+        setTimeout(sendHeightToParent, 300);
+    }
+
+    // Funkcja wysyłająca wysokość kalkulatora do strony nadrzędnej
+    function sendHeightToParent() {
+        const height = document.body.scrollHeight; // Oblicza wysokość zawartości
+        window.parent.postMessage({ type: 'resizeIframe', height: height }, '*');
+    }
+
+    // Wyślij wysokość przy załadowaniu strony
+    window.addEventListener('load', sendHeightToParent);
+
+    // Wyślij wysokość przy każdej zmianie zawartości
+    window.addEventListener('resize', sendHeightToParent);
+
+    // Wyślij wysokość po kliknięciu "Oblicz", aby zaktualizować po rozwinięciu wyniku
+    document.querySelector('form').addEventListener('submit', function() {
+        setTimeout(sendHeightToParent, 300); // Krótkie opóźnienie, by wynik zdążył się wyrenderować
+    });
+</script>
+
 </body>
 </html>
