@@ -95,24 +95,27 @@
 <body>
     <h2>Kalkulator Systemu Nawadniania</h2>
     <form onsubmit="calculateCost(event)">
-        <label for="area">Powierzchnia ogrodu (m²):</label>
+        <label for="area">Całkowita powierzchnia ogrodu (m²):</label>
         <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię" required>
 
         <label for="pressure">Ciśnienie wody:</label>
         <select id="pressure">
-            <option value="30">2 atm </option>
-            <option value="20">2,5 atm</option>
-            <option value="10">3 atm</option>
-            <option value="0">3,5 atm</option>
-            <option value="-10">4 atm</option>
+            <option value="30">2 atm - bardzo niskie ciśnienie- nie wystarczajace dla systemu nawadniania</option>
+            <option value="20">2,5 atm - niskie ciśnienie, wystarczające dla małego ogrodu</option>
+            <option value="10">3 atm - ciśnienie odpowiednie dla małych i średnich ogrodów</option>
+            <option value="0">3,5 atm - ciśnienie zalecane dla poprawnego działania systemu</option>
+            <option value="-10">4 atm - ciśnienie odpowiednie dla średnich i dużych powierzchni</option>
         </select>
 
-        <label for="pipe">Wydatek wody:</label>
+        <label for="pipe">Wydatek wody(rura zasilająca nawadnianie):</label>
         <select id="pipe">
-            <option value="60">ok 1 m³/h - rura 16  </option>
-            <option value="30">ok 1,4 m³/h - rura 20  </option>
-            <option value="10">ok 2,5 m³/h - Rura 25</option>
-            <option value="0">ok 4,5 m³/h Rura 32 </option>
+            <option value="60">1 m³/h - rura PE 16</option>
+            <option value="30">1,4 m³/h - rura PE 20</option>
+            <option value="10">2,5 m³/h - rura PE 25</option>
+            <option value="0">4,5 m³/h - rura PE 32</option>
+            <option value="-10">7 m³/h - rura PE 40</option>
+            <option value="-15">15 m³/h - rura PE 50</option>
+
         </select>
 
         <label for="controller">Komputer sterujący:</label>
@@ -123,14 +126,14 @@
 
         <label for="wifi">Sterowanie:</label>
         <select id="wifi">
-            <option value="0">Bez WiFi </option>
+            <option value="0">Bez WiFi</option>
             <option value="600">Z WiFi (+600 zł)</option>
         </select>
 
         <label for="sensor">Czujnik deszczu:</label>
         <select id="sensor">
             <option value="160">Standardowy</option>
-            <option value="500">SolarSync (+350 zł)</option>
+            <option value="350">SolarSync (+350 zł)</option>
         </select>
 
         <button type="submit">Oblicz koszty</button>
@@ -205,41 +208,45 @@
         const overallCostMin = totalCost + laborCostMinFinal;
         const overallCostMax = totalCost + laborCostMaxFinal;
 
+        // Recommendations
+        let recommendedPipe, recommendedPressure;
+        if (area <= 200) {
+            recommendedPipe = "16-20 mm";
+            recommendedPressure = "2,5-3,5 atm";
+        } else if (area <= 300) {
+            recommendedPipe = "20-25 mm";
+            recommendedPressure = "3-4 atm";
+        } else if (area <= 1000) {
+            recommendedPipe = "25-32 mm";
+            recommendedPressure = "3,5-4 atm";
+        } else if (area <= 3000) {
+            recommendedPipe = "32-40 mm";
+            recommendedPressure = "3,5-4 atm";
+        } else if (area <= 6000) {
+            recommendedPipe = "40-50 mm";
+            recommendedPressure = "3,5-4 atm";
+        } else {
+            recommendedPipe = "40-50 mm";
+            recommendedPressure = "3,5-4 atm";
+        }
+
         const resultDiv = document.getElementById('result');
         resultDiv.classList.remove('hidden');
         resultDiv.innerHTML = `
             <h3>Podsumowanie:</h3>
-            <p><strong>Koszt elementów nawadniania podstawowy:</strong> ${irrigationCost.toFixed(2)} zł</p>
-            <p><strong>Koszt sterownika:</strong> ${controllerTotalCost.toFixed(2)} zł</p>
-            <p><strong>Koszt skrzynek elektrozaworowych:</strong> ${valveBoxCost.toFixed(2)} zł</p>
-            <p><strong>Koszt robocizny:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
-            <h3><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h3>
+            <h4><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h4>
+            <p><strong>Szacowane koszty materiałów:</strong> ${totalCost.toFixed(2)} zł</p>
+            <p><strong>Szacowane koszty robocizny:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
+            
+            <h3>Zalecenia dla ogrodu o wskazanej powierzchni:</h3>
+            <p>Optymalna średnica rury PE dla tej powierzchni ogrodu to: ${recommendedPipe}</p>
+            <p>Optymalne ciśnienie wody dla tej powierzchni ogrodu to: ${recommendedPressure}</p>
+            <p>Mniejsze parametry będą miały wpływ na koszt wykonania systemu.</p>
         `;
 
         const ctaDiv = document.getElementById('cta');
         ctaDiv.classList.remove('hidden');
-
-        // Wyślij wysokość po obliczeniach
-        setTimeout(sendHeightToParent, 300);
     }
-
-    // Funkcja wysyłająca wysokość kalkulatora do strony nadrzędnej
-    function sendHeightToParent() {
-        const height = document.body.scrollHeight; // Oblicza wysokość zawartości
-        window.parent.postMessage({ type: 'resizeIframe', height: height }, '*');
-    }
-
-    // Wyślij wysokość przy załadowaniu strony
-    window.addEventListener('load', sendHeightToParent);
-
-    // Wyślij wysokość przy każdej zmianie zawartości
-    window.addEventListener('resize', sendHeightToParent);
-
-    // Wyślij wysokość po kliknięciu "Oblicz koszty", aby zaktualizować po rozwinięciu wyniku
-    document.querySelector('form').addEventListener('submit', function() {
-        setTimeout(sendHeightToParent, 300); // Krótkie opóźnienie, by wynik zdążył się wyrenderować
-    });
-</script>
-
+    </script>
 </body>
 </html>
