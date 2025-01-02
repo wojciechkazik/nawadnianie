@@ -13,9 +13,23 @@
         }
 
         h2 {
-            font-size: 24px;
+            font-size: 26px;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        h3 {
+            font-size: 20px;
+            text-align: left;
+            margin-bottom: 0px;
+            color: #333;
+        }
+        
+         p {
+            font-size: 16px;
+            text-align: left;
+            margin-bottom: 0px;
             color: #333;
         }
 
@@ -99,24 +113,25 @@
         <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię" required>
 
         <label for="pressure">Ciśnienie wody:</label>
-        <select id="pressure">
-            <option value="30">2 atm - bardzo niskie ciśnienie- nie wystarczajace dla systemu nawadniania</option>
-            <option value="20">2,5 atm - niskie ciśnienie, wystarczające dla małego ogrodu</option>
-            <option value="10">3 atm - ciśnienie odpowiednie dla małych i średnich ogrodów</option>
-            <option value="0">3,5 atm - ciśnienie zalecane dla poprawnego działania systemu</option>
-            <option value="-10">4 atm - ciśnienie odpowiednie dla średnich i dużych powierzchni</option>
-        </select>
+    <select id="pressure" required>
+        <option value="" disabled selected>Wybierz ciśnienie</option>
+        <option value="30">2 atm - bardzo niskie ciśnienie - nie wystarczające dla systemu nawadniania</option>
+        <option value="20">2,5 atm - niskie ciśnienie, wystarczające dla małego ogrodu</option>
+        <option value="10">3 atm - ciśnienie odpowiednie dla małych i średnich ogrodów</option>
+        <option value="0">3,5 atm - ciśnienie zalecane dla poprawnego działania systemu</option>
+        <option value="-10">4 atm - ciśnienie odpowiednie dla średnich i dużych powierzchni</option>
+    </select>
 
-        <label for="pipe">Wydatek wody(rura zasilająca nawadnianie):</label>
-        <select id="pipe">
-            <option value="60">1 m³/h - rura PE 16</option>
-            <option value="30">1,4 m³/h - rura PE 20</option>
-            <option value="10">2,5 m³/h - rura PE 25</option>
-            <option value="0">4,5 m³/h - rura PE 32</option>
-            <option value="-10">7 m³/h - rura PE 40</option>
-            <option value="-15">15 m³/h - rura PE 50</option>
-
-        </select>
+     <label for="pipe">Wydatek wody (rura główna zasilająca nawadnianie):</label>
+    <select id="pipe" required>
+        <option value="" disabled selected>Wybierz wydatek wody</option>
+        <option value="60">1 m³/h - rura PE 16</option>
+        <option value="30">1,4 m³/h - rura PE 20</option>
+        <option value="10">2,5 m³/h - rura PE 25</option>
+        <option value="0">4,5 m³/h - rura PE 32</option>
+        <option value="-10">7 m³/h - rura PE 40</option>
+        <option value="-15">15 m³/h - rura PE 50</option>
+    </select>
 
         <label for="controller">Komputer sterujący:</label>
         <select id="controller">
@@ -157,16 +172,16 @@
 
         let costPerSquareMeter;
         if (area <= 100) costPerSquareMeter = 50;
-        else if (area <= 200) costPerSquareMeter = 40;
-        else if (area <= 300) costPerSquareMeter = 35;
-        else if (area <= 500) costPerSquareMeter = 30;
-        else if (area <= 1000) costPerSquareMeter = 20;
-        else if (area <= 1500) costPerSquareMeter = 18;
-        else if (area <= 2000) costPerSquareMeter = 16;
-        else if (area <= 3000) costPerSquareMeter = 15;
-        else if (area <= 4000) costPerSquareMeter = 14;
-        else if (area <= 5000) costPerSquareMeter = 12;
-        else if (area <= 6000) costPerSquareMeter = 10;
+        else if (area <= 200) costPerSquareMeter = 30;
+        else if (area <= 300) costPerSquareMeter = 25;
+        else if (area <= 500) costPerSquareMeter = 20;
+        else if (area <= 1000) costPerSquareMeter = 15;
+        else if (area <= 1500) costPerSquareMeter = 14;
+        else if (area <= 2000) costPerSquareMeter = 13;
+        else if (area <= 3000) costPerSquareMeter = 12;
+        else if (area <= 4000) costPerSquareMeter = 11;
+        else if (area <= 5000) costPerSquareMeter = 10;
+        else if (area <= 6000) costPerSquareMeter = 9;
         else if (area <= 8000) costPerSquareMeter = 8;
         else costPerSquareMeter = 7;
 
@@ -224,24 +239,24 @@
             recommendedPressure = "3,5-4 atm";
         } else if (area <= 6000) {
             recommendedPipe = "40-50 mm";
-            recommendedPressure = "3,5-4 atm";
+            recommendedPressure = "3,5-4,5 atm";
         } else {
             recommendedPipe = "40-50 mm";
-            recommendedPressure = "3,5-4 atm";
+            recommendedPressure = "4-4,5 atm";
         }
 
         const resultDiv = document.getElementById('result');
         resultDiv.classList.remove('hidden');
         resultDiv.innerHTML = `
-            <h3>Podsumowanie:</h3>
-            <h4><strong>Łączny koszt:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h4>
-            <p><strong>Szacowane koszty materiałów:</strong> ${totalCost.toFixed(2)} zł</p>
-            <p><strong>Szacowane koszty robocizny:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
+            <h2>Podsumowanie:</h2>
+            <h3><strong>Łączny koszt systemu nawadniania ogrodu:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h3>
+            <p>Szacowane koszty materiałów: ${totalCost.toFixed(2)} zł</p>
+            <p>Szacowane koszty robocizny:od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
             
             <h3>Zalecenia dla ogrodu o wskazanej powierzchni:</h3>
             <p>Optymalna średnica rury PE dla tej powierzchni ogrodu to: ${recommendedPipe}</p>
             <p>Optymalne ciśnienie wody dla tej powierzchni ogrodu to: ${recommendedPressure}</p>
-            <p>Mniejsze parametry będą miały wpływ na koszt wykonania systemu.</p>
+            <p>Niższe parametry będą miały wpływ na koszt wykonania systemu automatycznego nawadniania.</p>
         `;
 
         const ctaDiv = document.getElementById('cta');
