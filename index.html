@@ -107,7 +107,6 @@
     </style>
 </head>
 <body>
-    <h2>Kalkulator Systemu Nawadniania</h2>
     <form onsubmit="calculateCost(event)">
         <label for="area">Całkowita powierzchnia ogrodu (m²):</label>
         <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię" required>
@@ -125,7 +124,7 @@
      <label for="pipe">Wydatek wody (rura główna zasilająca nawadnianie):</label>
     <select id="pipe" required>
         <option value="" disabled selected>Wybierz wydatek wody</option>
-        <option value="60">1 m³/h - rura PE 16</option>
+        <option value="40">1 m³/h - rura PE 16</option>
         <option value="30">1,4 m³/h - rura PE 20</option>
         <option value="10">2,5 m³/h - rura PE 25</option>
         <option value="0">4,5 m³/h - rura PE 32</option>
@@ -171,19 +170,19 @@
         const sensorCost = parseFloat(document.getElementById('sensor').value);
 
         let costPerSquareMeter;
-        if (area <= 100) costPerSquareMeter = 50;
-        else if (area <= 200) costPerSquareMeter = 30;
-        else if (area <= 300) costPerSquareMeter = 25;
-        else if (area <= 500) costPerSquareMeter = 20;
-        else if (area <= 1000) costPerSquareMeter = 15;
-        else if (area <= 1500) costPerSquareMeter = 14;
-        else if (area <= 2000) costPerSquareMeter = 13;
-        else if (area <= 3000) costPerSquareMeter = 12;
-        else if (area <= 4000) costPerSquareMeter = 11;
-        else if (area <= 5000) costPerSquareMeter = 10;
-        else if (area <= 6000) costPerSquareMeter = 9;
-        else if (area <= 8000) costPerSquareMeter = 8;
-        else costPerSquareMeter = 7;
+        if (area <= 100) costPerSquareMeter = 30;
+        else if (area <= 200) costPerSquareMeter = 20;
+        else if (area <= 300) costPerSquareMeter = 18;
+        else if (area <= 500) costPerSquareMeter = 17;
+        else if (area <= 1000) costPerSquareMeter = 13;
+        else if (area <= 1500) costPerSquareMeter = 12;
+        else if (area <= 2000) costPerSquareMeter = 10;
+        else if (area <= 3000) costPerSquareMeter = 9;
+        else if (area <= 4000) costPerSquareMeter = 8;
+        else if (area <= 5000) costPerSquareMeter = 7;
+        else if (area <= 6000) costPerSquareMeter = 6;
+        else if (area <= 8000) costPerSquareMeter = 5;
+        else costPerSquareMeter = 4;
 
         const irrigationCost = area * costPerSquareMeter;
 
@@ -212,8 +211,8 @@
         else valveBoxCost = 7500;
 
         const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost;
-        const laborCostMin = baseMaterialCost * 0.3;
-        const laborCostMax = baseMaterialCost * 0.4;
+        const laborCostMin = baseMaterialCost * 0.8;
+        const laborCostMax = baseMaterialCost * 1.0;
 
         const totalModifier = 1 + (pressureModifier + pipeModifier) / 100;
         const totalCost = baseMaterialCost * totalModifier;
