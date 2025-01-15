@@ -114,9 +114,9 @@
         <label for="pressure">Ciśnienie wody:</label>
     <select id="pressure" required>
         <option value="" disabled selected>Wybierz ciśnienie</option>
-        <option value="30">2 atm - bardzo niskie ciśnienie - nie wystarczające dla systemu nawadniania</option>
-        <option value="20">2,5 atm - niskie ciśnienie, wystarczające dla małego ogrodu</option>
-        <option value="10">3 atm - ciśnienie odpowiednie dla małych i średnich ogrodów</option>
+        <option value="15">2 atm - bardzo niskie ciśnienie - nie wystarczające dla systemu nawadniania</option>
+        <option value="10">2,5 atm - niskie ciśnienie, wystarczające dla małego ogrodu</option>
+        <option value="5">3 atm - ciśnienie odpowiednie dla małych i średnich ogrodów</option>
         <option value="0">3,5 atm - ciśnienie zalecane dla poprawnego działania systemu</option>
         <option value="-10">4 atm - ciśnienie odpowiednie dla średnich i dużych powierzchni</option>
     </select>
@@ -124,9 +124,9 @@
      <label for="pipe">Wydatek wody (rura główna zasilająca nawadnianie):</label>
     <select id="pipe" required>
         <option value="" disabled selected>Wybierz wydatek wody</option>
-        <option value="40">1 m³/h - rura PE 16</option>
-        <option value="30">1,4 m³/h - rura PE 20</option>
-        <option value="10">2,5 m³/h - rura PE 25</option>
+        <option value="15">1 m³/h - rura PE 16</option>
+        <option value="10">1,4 m³/h - rura PE 20</option>
+        <option value="5">2,5 m³/h - rura PE 25</option>
         <option value="0">4,5 m³/h - rura PE 32</option>
         <option value="-10">7 m³/h - rura PE 40</option>
         <option value="-15">15 m³/h - rura PE 50</option>
@@ -170,17 +170,17 @@
         const sensorCost = parseFloat(document.getElementById('sensor').value);
 
         let costPerSquareMeter;
-        if (area <= 100) costPerSquareMeter = 30;
-        else if (area <= 200) costPerSquareMeter = 20;
-        else if (area <= 300) costPerSquareMeter = 18;
-        else if (area <= 500) costPerSquareMeter = 17;
-        else if (area <= 1000) costPerSquareMeter = 13;
-        else if (area <= 1500) costPerSquareMeter = 12;
-        else if (area <= 2000) costPerSquareMeter = 10;
-        else if (area <= 3000) costPerSquareMeter = 9;
-        else if (area <= 4000) costPerSquareMeter = 8;
-        else if (area <= 5000) costPerSquareMeter = 7;
-        else if (area <= 6000) costPerSquareMeter = 6;
+        if (area <= 100) costPerSquareMeter = 20;
+        else if (area <= 200) costPerSquareMeter = 15;
+        else if (area <= 300) costPerSquareMeter = 13;
+        else if (area <= 500) costPerSquareMeter = 12;
+        else if (area <= 1000) costPerSquareMeter = 10;
+        else if (area <= 1500) costPerSquareMeter = 9;
+        else if (area <= 2000) costPerSquareMeter = 8;
+        else if (area <= 3000) costPerSquareMeter = 6;
+        else if (area <= 4000) costPerSquareMeter = 6;
+        else if (area <= 5000) costPerSquareMeter = 6;
+        else if (area <= 6000) costPerSquareMeter = 5;
         else if (area <= 8000) costPerSquareMeter = 5;
         else costPerSquareMeter = 4;
 
@@ -198,17 +198,17 @@
 
         let valveBoxCost;
         if (area <= 100) valveBoxCost = 1000;
-        else if (area <= 200) valveBoxCost = 1200;
-        else if (area <= 300) valveBoxCost = 1500;
-        else if (area <= 500) valveBoxCost = 1800;
-        else if (area <= 1000) valveBoxCost = 2200;
-        else if (area <= 1500) valveBoxCost = 2500;
-        else if (area <= 2000) valveBoxCost = 3000;
-        else if (area <= 3000) valveBoxCost = 4000;
-        else if (area <= 4000) valveBoxCost = 5000;
-        else if (area <= 5000) valveBoxCost = 6000;
-        else if (area <= 6000) valveBoxCost = 7000;
-        else valveBoxCost = 7500;
+        else if (area <= 200) valveBoxCost = 1000;
+        else if (area <= 300) valveBoxCost = 1100;
+        else if (area <= 500) valveBoxCost = 1200;
+        else if (area <= 1000) valveBoxCost = 1500;
+        else if (area <= 1500) valveBoxCost = 1700;
+        else if (area <= 2000) valveBoxCost = 2000;
+        else if (area <= 3000) valveBoxCost = 2500;
+        else if (area <= 4000) valveBoxCost = 3000;
+        else if (area <= 5000) valveBoxCost = 3500;
+        else if (area <= 6000) valveBoxCost = 4000;
+        else valveBoxCost = 5000;
 
         const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost;
         const laborCostMin = baseMaterialCost * 0.8;
