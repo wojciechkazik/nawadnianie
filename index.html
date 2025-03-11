@@ -1,266 +1,279 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator Systemu Nawadniania</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f6f6f6;
-        }
-
-        h2 {
-            font-size: 26px;
-            text-align: center;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        h3 {
-            font-size: 20px;
-            text-align: left;
-            margin-bottom: 0px;
-            color: #333;
-        }
-        
-         p {
-            font-size: 16px;
-            text-align: left;
-            margin-bottom: 0px;
-            color: #333;
-        }
-
-        form {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 0 auto;
-            max-width: 1280px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #333;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            background-color: #f9f9f9;
-        }
-
-        input:focus, select:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #0f4e55;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 6px;
-            font-size: 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            box-sizing: border-box;
-        }
-
-        button:hover {
-            background-color: #093a40;
-        }
-
-        .results {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: left;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .cta {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .cta a {
-            color: #007bff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Systemu Nawadniania</title>
+  <style>
+    html, body {
+      overflow-x: hidden;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #FFFFFF;
+    }
+    h2 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    h3 {
+      font-size: 20px;
+      text-align: left;
+      margin-bottom: 0;
+      color: #333;
+    }
+    p {
+      font-size: 16px;
+      text-align: left;
+      margin-bottom: 0;
+      color: #333;
+    }
+    form {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin: 0 auto;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      background-color: #f9f9f9;
+    }
+    input:focus, select:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #0f4e55;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      font-size: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-sizing: border-box;
+    }
+    button:hover {
+      background-color: #093a40;
+    }
+    .results {
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      width: 100%;
+      max-width: 100%;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 20px 0;
+    }
+    .wycena-button-fiolet {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      max-width: 500px;
+      min-width: 250px;
+      font-size: clamp(16px, 1.8vw, 24px);
+      background: #8e42ff;
+      color: white !important;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 15px;
+      padding: 20px 25px;
+      line-height: 1.4;
+      transition: all 300ms ease-in-out;
+      box-shadow: 0 4px 10px rgba(142, 66, 255, 0.4);
+      white-space: normal;
+      word-wrap: break-word;
+    }
+    .wycena-button-fiolet:hover {
+      transform: scale(1.07);
+      background: #7a36db;
+      transition: all 200ms ease-in-out;
+    }
+  </style>
 </head>
 <body>
-    <form onsubmit="calculateCost(event)">
-        <label for="area">Całkowita powierzchnia ogrodu (m²):</label>
-        <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię" required>
+  <h2>Kalkulator Systemu Nawadniania</h2>
+  <form onsubmit="calculateCost(event)">
+    <label for="area">Całkowita powierzchnia ogrodu (m²):</label>
+    <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię" required>
 
-        <label for="pressure">Ciśnienie wody:</label>
+    <label for="pressure">Ciśnienie wody:</label>
     <select id="pressure" required>
-        <option value="" disabled selected>Wybierz ciśnienie</option>
-        <option value="15">2 atm - bardzo niskie ciśnienie - nie wystarczające dla systemu nawadniania</option>
-        <option value="10">2,5 atm - niskie ciśnienie, wystarczające dla małego ogrodu</option>
-        <option value="5">3 atm - ciśnienie odpowiednie dla małych i średnich ogrodów</option>
-        <option value="0">3,5 atm - ciśnienie zalecane dla poprawnego działania systemu</option>
-        <option value="-10">4 atm - ciśnienie odpowiednie dla średnich i dużych powierzchni</option>
+      <option value="" disabled selected>Wybierz ciśnienie</option>
+      <option value="15">2 atm - bardzo niskie ciśnienie - nie wystarczające dla systemu nawadniania</option>
+      <option value="10">2,5 atm - niskie ciśnienie, wystarczające dla małego ogrodu</option>
+      <option value="5">3 atm - ciśnienie odpowiednie dla małych i średnich ogrodów</option>
+      <option value="0">3,5 atm - ciśnienie zalecane dla poprawnego działania systemu</option>
+      <option value="-10">4 atm - ciśnienie odpowiednie dla średnich i dużych powierzchni</option>
     </select>
 
-     <label for="pipe">Wydatek wody (rura główna zasilająca nawadnianie):</label>
+    <label for="pipe">Wydatek wody (rura główna zasilająca nawadnianie):</label>
     <select id="pipe" required>
-        <option value="" disabled selected>Wybierz wydatek wody</option>
-        <option value="15">1 m³/h - rura PE 16</option>
-        <option value="10">1,4 m³/h - rura PE 20</option>
-        <option value="5">2,5 m³/h - rura PE 25</option>
-        <option value="0">4,5 m³/h - rura PE 32</option>
-        <option value="-10">7 m³/h - rura PE 40</option>
-        <option value="-15">15 m³/h - rura PE 50</option>
+      <option value="" disabled selected>Wybierz wydatek wody</option>
+      <option value="15">1 m³/h - rura PE 16</option>
+      <option value="10">1,4 m³/h - rura PE 20</option>
+      <option value="5">2,5 m³/h - rura PE 25</option>
+      <option value="0">4,5 m³/h - rura PE 32</option>
+      <option value="-10">7 m³/h - rura PE 40</option>
+      <option value="-15">15 m³/h - rura PE 50</option>
     </select>
 
-        <label for="controller">Komputer sterujący:</label>
-        <select id="controller">
-            <option value="0">Wewnętrzny</option>
-            <option value="200">Zewnętrzny (+200 zł)</option>
-        </select>
+    <label for="controller">Komputer sterujący:</label>
+    <select id="controller">
+      <option value="0">Wewnętrzny</option>
+      <option value="200">Zewnętrzny (+200 zł)</option>
+    </select>
 
-        <label for="wifi">Sterowanie:</label>
-        <select id="wifi">
-            <option value="0">Bez WiFi</option>
-            <option value="600">Z WiFi (+600 zł)</option>
-        </select>
+    <label for="wifi">Sterowanie:</label>
+    <select id="wifi">
+      <option value="0">Bez WiFi</option>
+      <option value="600">Z WiFi (+600 zł)</option>
+    </select>
 
-        <label for="sensor">Czujnik deszczu:</label>
-        <select id="sensor">
-            <option value="160">Standardowy</option>
-            <option value="350">SolarSync (+350 zł)</option>
-        </select>
+    <label for="sensor">Czujnik deszczu:</label>
+    <select id="sensor">
+      <option value="160">Standardowy</option>
+      <option value="350">SolarSync (+350 zł)</option>
+    </select>
 
-        <button type="submit">Oblicz koszty</button>
-    </form>
+    <button type="submit">Oblicz koszty</button>
+  </form>
 
-    <div id="result" class="results hidden"></div>
-    <div class="cta hidden" id="cta">
-        <h3><a href="https://wytwornia-zieleni.pl/ile-kosztuje-projekt-ogrodu" target="_blank" rel="nofollow ugc">👉 Sprawdź cenę projektu ogrodu w Wytwórni Zieleni 👌</a></h3>
-    </div>
+  <div id="result" class="results" style="display: none;"></div>
 
-    <script>
+  <script>
     function calculateCost(event) {
-        event.preventDefault();
+      event.preventDefault();
 
-        const area = parseFloat(document.getElementById('area').value);
-        const pressureModifier = parseFloat(document.getElementById('pressure').value);
-        const pipeModifier = parseFloat(document.getElementById('pipe').value);
-        const controllerCost = parseFloat(document.getElementById('controller').value);
-        const wifiCost = parseFloat(document.getElementById('wifi').value);
-        const sensorCost = parseFloat(document.getElementById('sensor').value);
+      const area = parseFloat(document.getElementById('area').value);
+      const pressureModifier = parseFloat(document.getElementById('pressure').value);
+      const pipeModifier = parseFloat(document.getElementById('pipe').value);
+      const controllerCost = parseFloat(document.getElementById('controller').value);
+      const wifiCost = parseFloat(document.getElementById('wifi').value);
+      const sensorCost = parseFloat(document.getElementById('sensor').value);
 
-        let costPerSquareMeter;
-        if (area <= 100) costPerSquareMeter = 20;
-        else if (area <= 200) costPerSquareMeter = 15;
-        else if (area <= 300) costPerSquareMeter = 13;
-        else if (area <= 500) costPerSquareMeter = 12;
-        else if (area <= 1000) costPerSquareMeter = 10;
-        else if (area <= 1500) costPerSquareMeter = 9;
-        else if (area <= 2000) costPerSquareMeter = 8;
-        else if (area <= 3000) costPerSquareMeter = 6;
-        else if (area <= 4000) costPerSquareMeter = 6;
-        else if (area <= 5000) costPerSquareMeter = 6;
-        else if (area <= 6000) costPerSquareMeter = 5;
-        else if (area <= 8000) costPerSquareMeter = 5;
-        else costPerSquareMeter = 4;
+      let costPerSquareMeter;
+      if (area <= 100) costPerSquareMeter = 20;
+      else if (area <= 200) costPerSquareMeter = 15;
+      else if (area <= 300) costPerSquareMeter = 13;
+      else if (area <= 500) costPerSquareMeter = 12;
+      else if (area <= 1000) costPerSquareMeter = 10;
+      else if (area <= 1500) costPerSquareMeter = 9;
+      else if (area <= 2000) costPerSquareMeter = 8;
+      else if (area <= 3000) costPerSquareMeter = 6;
+      else if (area <= 4000) costPerSquareMeter = 6;
+      else if (area <= 5000) costPerSquareMeter = 6;
+      else if (area <= 6000) costPerSquareMeter = 5;
+      else if (area <= 8000) costPerSquareMeter = 5;
+      else costPerSquareMeter = 4;
 
-        const irrigationCost = area * costPerSquareMeter;
+      const irrigationCost = area * costPerSquareMeter;
 
-        let controllerBaseCost;
-        if (area <= 200) controllerBaseCost = 350;
-        else if (area <= 500) controllerBaseCost = 390;
-        else if (area <= 1000) controllerBaseCost = 450;
-        else if (area <= 3000) controllerBaseCost = 1200;
-        else if (area <= 6000) controllerBaseCost = 3000;
-        else controllerBaseCost = 4000;
+      let controllerBaseCost;
+      if (area <= 200) controllerBaseCost = 350;
+      else if (area <= 500) controllerBaseCost = 390;
+      else if (area <= 1000) controllerBaseCost = 450;
+      else if (area <= 3000) controllerBaseCost = 1200;
+      else if (area <= 6000) controllerBaseCost = 3000;
+      else controllerBaseCost = 4000;
 
-        const controllerTotalCost = controllerBaseCost + wifiCost + controllerCost;
+      const controllerTotalCost = controllerBaseCost + wifiCost + controllerCost;
 
-        let valveBoxCost;
-        if (area <= 100) valveBoxCost = 1000;
-        else if (area <= 200) valveBoxCost = 1000;
-        else if (area <= 300) valveBoxCost = 1100;
-        else if (area <= 500) valveBoxCost = 1200;
-        else if (area <= 1000) valveBoxCost = 1500;
-        else if (area <= 1500) valveBoxCost = 1700;
-        else if (area <= 2000) valveBoxCost = 2000;
-        else if (area <= 3000) valveBoxCost = 2500;
-        else if (area <= 4000) valveBoxCost = 3000;
-        else if (area <= 5000) valveBoxCost = 3500;
-        else if (area <= 6000) valveBoxCost = 4000;
-        else valveBoxCost = 5000;
+      let valveBoxCost;
+      if (area <= 100) valveBoxCost = 1000;
+      else if (area <= 200) valveBoxCost = 1000;
+      else if (area <= 300) valveBoxCost = 1100;
+      else if (area <= 500) valveBoxCost = 1200;
+      else if (area <= 1000) valveBoxCost = 1500;
+      else if (area <= 1500) valveBoxCost = 1700;
+      else if (area <= 2000) valveBoxCost = 2000;
+      else if (area <= 3000) valveBoxCost = 2500;
+      else if (area <= 4000) valveBoxCost = 3000;
+      else if (area <= 5000) valveBoxCost = 3500;
+      else if (area <= 6000) valveBoxCost = 4000;
+      else valveBoxCost = 5000;
 
-        const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost;
-        const laborCostMin = baseMaterialCost * 0.8;
-        const laborCostMax = baseMaterialCost * 1.0;
+      const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost;
+      const laborCostMin = baseMaterialCost * 0.8;
+      const laborCostMax = baseMaterialCost * 1.0;
+      const totalModifier = 1 + (pressureModifier + pipeModifier) / 100;
+      const laborCostMinFinal = laborCostMin * totalModifier;
+      const laborCostMaxFinal = laborCostMax * totalModifier;
 
-        const totalModifier = 1 + (pressureModifier + pipeModifier) / 100;
-        const totalCost = baseMaterialCost * totalModifier;
-        const laborCostMinFinal = laborCostMin * totalModifier;
-        const laborCostMaxFinal = laborCostMax * totalModifier;
+      let recommendedPipe, recommendedPressure;
+      if (area <= 200) {
+        recommendedPipe = "16-20 mm";
+        recommendedPressure = "2,5-3,5 atm";
+      } else if (area <= 300) {
+        recommendedPipe = "20-25 mm";
+        recommendedPressure = "3-4 atm";
+      } else if (area <= 1000) {
+        recommendedPipe = "25-32 mm";
+        recommendedPressure = "3,5-4 atm";
+      } else if (area <= 3000) {
+        recommendedPipe = "32-40 mm";
+        recommendedPressure = "3,5-4 atm";
+      } else if (area <= 6000) {
+        recommendedPipe = "40-50 mm";
+        recommendedPressure = "3,5-4,5 atm";
+      } else {
+        recommendedPipe = "40-50 mm";
+        recommendedPressure = "4-4,5 atm";
+      }
 
-        const overallCostMin = totalCost + laborCostMinFinal;
-        const overallCostMax = totalCost + laborCostMaxFinal;
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <h2>Podsumowanie:</h2>
+        <h3><strong>Łączny koszt systemu nawadniania ogrodu:</strong> od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</h3>
+        <h3>Zalecenia dla ogrodu o wskazanej powierzchni:</h3>
+        <p>Optymalna średnica rury głównej PE dla tej powierzchni ogrodu to: ${recommendedPipe}</p>
+        <p>Optymalne ciśnienie wody dla tej powierzchni ogrodu to: ${recommendedPressure}</p>
+        <p>Niższe parametry będą miały wpływ na koszt wykonania systemu automatycznego nawadniania.</p>
+      `;
 
-        // Recommendations
-        let recommendedPipe, recommendedPressure;
-        if (area <= 200) {
-            recommendedPipe = "16-20 mm";
-            recommendedPressure = "2,5-3,5 atm";
-        } else if (area <= 300) {
-            recommendedPipe = "20-25 mm";
-            recommendedPressure = "3-4 atm";
-        } else if (area <= 1000) {
-            recommendedPipe = "25-32 mm";
-            recommendedPressure = "3,5-4 atm";
-        } else if (area <= 3000) {
-            recommendedPipe = "32-40 mm";
-            recommendedPressure = "3,5-4 atm";
-        } else if (area <= 6000) {
-            recommendedPipe = "40-50 mm";
-            recommendedPressure = "3,5-4,5 atm";
-        } else {
-            recommendedPipe = "40-50 mm";
-            recommendedPressure = "4-4,5 atm";
-        }
-
-        const resultDiv = document.getElementById('result');
-        resultDiv.classList.remove('hidden');
-        resultDiv.innerHTML = `
-            <h2>Podsumowanie:</h2>
-            <h3><strong>Łączny koszt systemu nawadniania ogrodu:</strong> od ${overallCostMin.toFixed(2)} zł do ${overallCostMax.toFixed(2)} zł</h3>
-            <p>Szacowane koszty materiałów: ${totalCost.toFixed(2)} zł</p>
-            <p>Szacowane koszty robocizny:od ${laborCostMinFinal.toFixed(2)} zł do ${laborCostMaxFinal.toFixed(2)} zł</p>
-            
-            <h3>Zalecenia dla ogrodu o wskazanej powierzchni:</h3>
-            <p>Optymalna średnica rury PE dla tej powierzchni ogrodu to: ${recommendedPipe}</p>
-            <p>Optymalne ciśnienie wody dla tej powierzchni ogrodu to: ${recommendedPressure}</p>
-            <p>Niższe parametry będą miały wpływ na koszt wykonania systemu automatycznego nawadniania.</p>
+      if (!document.getElementById('ebookOffer')) {
+        const ebookOfferHTML = `
+          <div class="button-container" id="ebookOffer">
+            <a href="https://wytwornia-zieleni.pl/rabaty-ogrodowe-gotowe-projekty" target="_blank" class="wycena-button-fiolet">
+              Planjesz ogród🌲?<br>Sprawdź gotowe projekty rabat ogrodowych!
+            </a>
+          </div>
+          <p id="ebookInfo">Z kodem "BLOG-WZ" zniżka na pełna wersję ebooka 🌿✨</p>
         `;
-
-        const ctaDiv = document.getElementById('cta');
-        ctaDiv.classList.remove('hidden');
+        resultDiv.innerHTML += ebookOfferHTML;
+      }
     }
-    </script>
+  </script>
 </body>
 </html>
