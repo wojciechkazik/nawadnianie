@@ -32,11 +32,11 @@
       margin-bottom: 0;
       color: #333;
     }
-    form {
+    .form-container {
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 10px;
+      padding: 20px;
       margin: 0 auto;
       width: 100%;
       max-width: 100%;
@@ -84,40 +84,7 @@
       margin-top: 20px;
       width: 100%;
       max-width: 100%;
-    }
-    .button-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin: 20px 0;
-    }
-    .wycena-button-fiolet {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 50%;
-      max-width: 500px;
-      min-width: 250px;
-      font-size: clamp(16px, 1.8vw, 24px);
-      background: #8e42ff;
-      color: white !important;
-      text-align: center;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 15px;
-      padding: 20px 25px;
-      line-height: 1.4;
-      transition: all 300ms ease-in-out;
-      box-shadow: 0 4px 10px rgba(142, 66, 255, 0.4);
-      white-space: normal;
-      word-wrap: break-word;
-    }
-    .wycena-button-fiolet:hover {
-      transform: scale(1.07);
-      background: #7a36db;
-      transition: all 200ms ease-in-out;
+      display: none;
     }
     .cta-section {
       background-color: #f0f8ff;
@@ -160,7 +127,8 @@
 </head>
 <body>
   <h2>Kalkulator Systemu Nawadniania</h2>
-  <form onsubmit="calculateCost(event)">
+  
+  <div class="form-container">
     <label for="area">Całkowita powierzchnia ogrodu (m²):</label>
     <input type="number" id="area" min="1" placeholder="Wprowadź powierzchnię" required>
 
@@ -203,36 +171,46 @@
       <option value="350">SolarSync (+350 zł)</option>
     </select>
 
-    <button type="submit">Oblicz koszty</button>
-  </form>
+    <button type="button" onclick="calculateCost()">Oblicz koszty</button>
+  </div>
 
-  <div id="result" class="results" style="display: none;"></div>
+  <div id="result" class="results"></div>
 
   <script>
-    function calculateCost(event) {
-      event.preventDefault();
-      
+    function calculateCost() {
       console.log("Funkcja calculateCost została wywołana");
 
-      const area = parseFloat(document.getElementById('area').value);
-      const pressureModifier = parseFloat(document.getElementById('pressure').value);
-      const pipeModifier = parseFloat(document.getElementById('pipe').value);
-      const controllerCost = parseFloat(document.getElementById('controller').value);
-      const wifiCost = parseFloat(document.getElementById('wifi').value);
-      const sensorCost = parseFloat(document.getElementById('sensor').value);
+      // Pobieranie wartości z formularza
+      const areaInput = document.getElementById('area');
+      const pressureInput = document.getElementById('pressure');
+      const pipeInput = document.getElementById('pipe');
+      const controllerInput = document.getElementById('controller');
+      const wifiInput = document.getElementById('wifi');
+      const sensorInput = document.getElementById('sensor');
+
+      const area = parseFloat(areaInput.value);
+      const pressureModifier = parseFloat(pressureInput.value);
+      const pipeModifier = parseFloat(pipeInput.value);
+      const controllerCost = parseFloat(controllerInput.value);
+      const wifiCost = parseFloat(wifiInput.value);
+      const sensorCost = parseFloat(sensorInput.value);
       
       console.log("Wartości:", { area, pressureModifier, pipeModifier, controllerCost, wifiCost, sensorCost });
 
-      // Sprawdzenie czy wszystkie wartości są prawidłowe
-      if (isNaN(area) || isNaN(pressureModifier) || isNaN(pipeModifier) || 
-          isNaN(controllerCost) || isNaN(wifiCost) || isNaN(sensorCost)) {
-        alert("Błąd: Nie wszystkie pola zostały wypełnione poprawnie!");
+      // Walidacja danych
+      if (!area || area <= 0) {
+        alert("Proszę wprowadzić prawidłową powierzchnię ogrodu!");
+        return;
+      }
+
+      if (pressureInput.value === "" || pipeInput.value === "") {
+        alert("Proszę wybrać wszystkie wymagane opcje!");
         return;
       }
 
       console.log("Wszystkie wartości są prawidłowe, rozpoczynam kalkulację");
 
-      // NOWA STRUKTURA KOSZTÓW - dostosowana do docelowych cen za m²
+      // Kalkulacja kosztów za m²
       let costPerSquareMeter;
       if (area <= 100) costPerSquareMeter = 15;
       else if (area <= 200) costPerSquareMeter = 22;
@@ -246,7 +224,7 @@
 
       const irrigationCost = area * costPerSquareMeter;
 
-      // Koszty kontrolera (bez zmian)
+      // Koszty kontrolera
       let controllerBaseCost;
       if (area <= 200) controllerBaseCost = 350;
       else if (area <= 500) controllerBaseCost = 390;
@@ -257,7 +235,7 @@
 
       const controllerTotalCost = controllerBaseCost + wifiCost + controllerCost;
 
-      // Koszty skrzynki zaworów (bez zmian)
+      // Koszty skrzynki zaworów
       let valveBoxCost;
       if (area <= 100) valveBoxCost = 1000;
       else if (area <= 200) valveBoxCost = 1000;
@@ -274,7 +252,7 @@
 
       const baseMaterialCost = irrigationCost + controllerTotalCost + valveBoxCost + sensorCost;
       
-      // NOWA STRUKTURA: robocizna = 25% zamiast 80-100%
+      // Robocizna = 25%
       const totalCost = baseMaterialCost * 1.25;
       
       // Modyfikatory ciśnienia i rury
@@ -307,11 +285,11 @@
       
       console.log("Kalkulacja zakończona:", { finalCost, pricePerM2 });
 
+      // Wyświetlenie wyników
       const resultDiv = document.getElementById('result');
-      resultDiv.style.display = 'block';
       resultDiv.innerHTML = `
         <h2>Podsumowanie:</h2>
-        <h3><strong>Łączny koszt systemu nawadniania ogrodu:</strong> ${finalCost.toFixed(0)} zł</h3>
+        <h3><strong>Łączny koszt systemu nawadniania ogrodu:</strong> ${Math.round(finalCost)} zł</h3>
         <h3><strong>Koszt za m²:</strong> ${pricePerM2.toFixed(1)} zł/m²</h3>
         
         <h3>Zalecenia dla ogrodu o wskazanej powierzchni:</h3>
@@ -322,35 +300,53 @@
         <p style="font-style: italic; color: #666; margin-top: 15px; padding: 15px; background-color: #f0f8ff; border-radius: 8px; border-left: 4px solid #007bff;">
           *Podane ceny są szacunkowe i mogą się różnić w zależności od lokalizacji, konkretnych materiałów i kosztów robocizny.
         </p>
+
+        <div class="tips-section">
+          <h3>💰 Porady do systemu nawadniania:</h3>
+          <ul>
+            <li><strong>💡 Wskazówki oszczędnościowe:</strong> Wybierz optymalne ciśnienie wody (3,5 atm) - to podstawa działania systemu</li>
+            <li><strong>🔧 Dobór rury:</strong> Dobierz rurę PE odpowiednią do wielkości ogrodu - unikniesz dodatkowych kosztów</li>
+            <li><strong>📱 Sterowanie WiFi:</strong> WiFi sterowanie warto dodać jeśli często podróżujesz</li>
+            <li><strong>🌧️ Czujniki:</strong> Każdy system nawadniania powinien mieć czujnik opadów</li>
+            <li><strong>🛠️ Samodzielne wykonanie:</strong> Wykonując nawadnianie samemu możesz zaoszczędzić nawet 40-50% kosztów, ale musisz mieć odpowiednie umiejętności i poświęcić na to czas</li>
+          </ul>
+        </div>
+
+        <div class="cta-section">
+          <h3>🌿 Gotowy na projekt swojego wymarzonego ogrodu?</h3>
+          <p>Uzyskaj profesjonalną wycenę i konsultację w zakresie projektowania ogrodu od ekspertów Wytwornia Zieleni.</p>
+          <a href="https://wytwornia-zieleni.pl/ile-kosztuje-projekt-ogrodu" target="_blank" class="cta-button">Zamów profesjonalny projekt ogrodu</a>
+        </div>
       `;
       
-      // Pokazujemy sekcje tips i CTA po obliczeniu (zmieniona kolejność)
-      if (!document.getElementById('tips-section')) {
-        const tipsHTML = `
-          <div class="tips-section" id="tips-section">
-            <h3>💰 Porady do systemu nawadniania:</h3>
-            <ul>
-              <li><strong>💡 Wskazówki oszczędnościowe:</strong> Wybierz optymalne ciśnienie wody (3,5 atm) - to podstawa działania systemu</li>
-              <li><strong>🔧 Dobór rury:</strong> Dobierz rurę PE odpowiednią do wielkości ogrodu - unikniesz dodatkowych kosztów</li>
-              <li><strong>📱 Sterowanie WiFi:</strong> WiFi sterowanie warto dodać jeśli często podróżujesz</li>
-              <li><strong>🌧️ Czujniki:</strong> Każdy system nawadniania powinien mieć czujnik opadów</li>
-              <li><strong>🛠️ Samodzielne wykonanie:</strong> Wykonując nawadnianie samemu możesz zaoszczędzić nawet 40-50% kosztów, ale musisz mieć odpowiednie umiejętności i poświęcić na to czas</li>
-            </ul>
-          </div>
-        `;
-        resultDiv.innerHTML += tipsHTML;
+      resultDiv.style.display = 'block';
+
+      // Funkcja komunikacji z iframe (tylko jeśli potrzebna)
+      try {
+        if (window.parent && window.parent !== window) {
+          setTimeout(function() {
+            const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+            window.parent.postMessage({ iframeHeight: height }, '*');
+          }, 300);
+        }
+      } catch (e) {
+        // Ignoruj błędy komunikacji z iframe
       }
-      
-      if (!document.getElementById('cta-section')) {
-        const ctaHTML = `
-          <div class="cta-section" id="cta-section">
-            <h3>🌿 Gotowy na projekt swojego wymarzonego ogrodu?</h3>
-            <p>Uzyskaj profesjonalną wycenę i konsultację w zakresie projektowania ogrodu od ekspertów Wytwornia Zieleni.</p>
-            <a href="https://wytwornia-zieleni.pl/ile-kosztuje-projekt-ogrodu" target="_blank" class="cta-button">Zamów profesjonalny projekt ogrodu</a>
-          </div>
-        `;
-        resultDiv.innerHTML += ctaHTML;
+    }
+
+    // Event listeners dla komunikacji z iframe (tylko jeśli potrzebne)
+    try {
+      if (window.parent && window.parent !== window) {
+        function sendHeight() {
+          const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+          window.parent.postMessage({ iframeHeight: height }, '*');
+        }
+        
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
       }
+    } catch (e) {
+      // Ignoruj błędy
     }
   </script>
 </body>
